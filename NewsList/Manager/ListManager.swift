@@ -50,6 +50,7 @@ enum SErrorType: Equatable, Error{
     case CannotDelete(String)
 }
 
+
 // MARK: SResultsProtocol
 protocol SResultsProtocol{
     func fetchRecomendations(params: Query?,completionHandler: @escaping SResultsCompletionHandler)
