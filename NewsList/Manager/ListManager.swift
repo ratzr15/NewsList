@@ -151,6 +151,7 @@ class ListManager {
         }
     }
     
+    ///Constructor : URL
     func setURL(model : Query) -> String {
         let baseurl  = "https://newsapi.org/v2/top-headlines?"
         let country     = "country=\(model.country)&"
