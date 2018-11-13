@@ -137,6 +137,12 @@ class ListManager {
     }
 
     
+    /// Request API
+    ///
+    /// - Parameters:
+    ///   - query: country/ apiKey
+    ///   - page: optional count for on demand - pull to refresh
+    ///   - completion: Meta / Error
     func request(query :String, page:String, completion: @escaping (Meta?) -> Void){
         let param = Query(country: query, page: page, id: "", count: "")
         self.fetch(params: param) { (result: SResults<Meta?>) -> Void in
