@@ -61,7 +61,7 @@ typealias SResultsCompletionHandler = (SResults<Meta?>) -> Void
 
 class ListManager {
 
-    ///  API Req: https://newsapi.org/v2/top-headlines?country=us&apiKey=6fb52f2be2754dc7871284da64b8e129
+    ///  API Req Helper: https://newsapi.org/v2/top-headlines?country=us&apiKey=6fb52f2be2754dc7871284da64b8e129
     ///
     /// - Parameters:
     ///   - params:{ query }
