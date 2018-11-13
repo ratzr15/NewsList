@@ -96,6 +96,7 @@ class ListManager {
         }
     }
     
+    
     /// getDataRequest - Decodable Result
     ///
     /// - Parameters:
