@@ -1,10 +1,8 @@
 //----------------------------------------------------------------------------------
-//  File Name         :  UISearchBar+Extension.swift
-//  Description       :  Extension for UISearchBar
-//                       1. Manages -> Search Bar Appearance
+//  File Name         :  UIImage+Extension.swift
 //  Author            :  Rathish Kannan
 //  E-mail            :  rathishnk@hotmail.co.in
-//  Dated             :  23rd Sep 2018
+//  Dated             :  14 Nov 2018
 //  Copyright (c) 2018 Rathish Kannan. All rights reserved.
 //-----------------------------------------------------------------------------------
 
