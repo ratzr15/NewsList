@@ -14,12 +14,37 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+   
+    fileprivate let viewModel = ListViewModel()
+
+    let manager = ListManager()
+
+    var param = Query(country: "us", page: "", id: "6fb52f2be2754dc7871284da64b8e129", count: "")
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        tableView?.dataSource = viewModel
+        tableView?.estimatedRowHeight = 100
+        tableView?.rowHeight = UITableView.automaticDimension
+        tableView?.register(NamePictureCell.nib, forCellReuseIdentifier: NamePictureCell.identifier)
     }
-
+    
+    private func setUpData(){
+        manager.request(query: param){  (results) in
+            if results?.totalResults ?? 1 > 0 {
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }else{
+                //No results
+            }
+            
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
 
 }
 
