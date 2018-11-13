@@ -28,6 +28,7 @@ func ==(lhs: Query, rhs: Query) -> Bool{
         && lhs.count == rhs.count
 }
 
+
 //API Response Type Enum
 enum SResults<T>{
     case Success(result: T)
