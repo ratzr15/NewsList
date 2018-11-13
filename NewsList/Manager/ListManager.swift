@@ -11,6 +11,7 @@
 
 import Foundation
 
+
 /// RequestParams
 struct Query: Equatable{
     var country: String
