@@ -31,14 +31,10 @@ class ViewController: UIViewController {
     
     private func setUpData(){
         manager.request(query: param){  (results) in
-            if results?.totalResults ?? 1 > 0 {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }else{
-                //No results
+            self.viewModel.setUpData(results: results?.articles ?? [])
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
-            
         }
     }
     
