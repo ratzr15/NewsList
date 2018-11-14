@@ -26,12 +26,13 @@ class ViewController: UIViewController {
         tableView?.dataSource = viewModel
         tableView?.estimatedRowHeight = 100
         tableView?.rowHeight = UITableView.automaticDimension
-        tableView?.register(NamePictureCell.nib, forCellReuseIdentifier: NamePictureCell.identifier)
+        tableView?.register(ListCell.nib, forCellReuseIdentifier: ListCell.identifier)
+        setUpData()
     }
     
     private func setUpData(){
         manager.request(query: param){  (results) in
-            self.viewModel.setUpData(results: results?.articles ?? [])
+            self.viewModel.data(results: results?.articles ?? [])
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
