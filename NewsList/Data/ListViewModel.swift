@@ -31,12 +31,16 @@ class ListViewModel: NSObject {
         super.init()        
     }
 
-    func setUpData(results: [Articles?]){
+    func data(results: [Articles?]){
         if results.count > 0 {
             for result in results {
-                if let name = result?.title, let overView = result?.author, let date = result?.publishedAt  {
-                    let nameAndPictureItem = DetailsItem(name: name, pictureUrl: result?.urlToImage ?? "", overView: overView, date: date)
-                    items.append(nameAndPictureItem)
+                if let head = result?.title, let overView = result?.content, let date = result?.author  {
+                    let details = ListItem(headLine: head, overView: overView, date: date)
+                    items.append(details)
+                }
+                if let name = result?.title, let overView = result?.author, let date = result?.author  {
+                    let details = DetailsItem(name: name, pictureUrl: result?.urlToImage ?? "", overView: overView, date: date)
+                    items.append(details)
                 }
             }
         }else{
@@ -52,18 +56,18 @@ class ListViewModel: NSObject {
 //MARK: - UITableViewDataSource
 extension ListViewModel: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return items.count
+        return  items.filter { $0.type == .list }.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items[section].rowCount
+        return items.filter { $0.type == .list }[section].rowCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = items[indexPath.section]
+        let item = items.filter { $0.type == .list }[indexPath.section]
         switch item.type {
         case .list:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: NamePictureCell.identifier, for: indexPath) as? NamePictureCell {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as? ListCell {
                 cell.item = item
                 return cell
             }
@@ -110,25 +114,25 @@ struct DetailsItem: ListViewModelItem {
 //MARK: - VM
 struct ListItem: ListViewModelItem {
     var type: ListViewModelItemType {
-        return .details
+        return .list
     }
     
     var sectionTitle: String {
-        return self.source
+        return self.date
     }
     
     var rowCount: Int {
         return 1
     }
     
-    var name: String
+    var headLine: String
     var overView: String
-    var source: String
+    var date: String
     
-    init(name: String, pictureUrl: String, overView: String, source: String) {
-        self.name = name
+    init(headLine: String, overView: String, date: String) {
+        self.headLine = headLine
         self.overView = overView
-        self.source = source
+        self.date = date
     }
 }
 
