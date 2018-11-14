@@ -157,7 +157,7 @@ class ListManager {
     func setURL(model : Query) -> String {
         let baseurl     = "https://newsapi.org/v2/top-headlines?"
         let country     = "country=\(model.country)&"
-        let key         = "apiKey=\(model.id)&"
+        let key         = "apiKey=\(model.id)"
         let url         = baseurl + country + key
         return url
     }
