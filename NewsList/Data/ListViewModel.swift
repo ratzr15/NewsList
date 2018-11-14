@@ -35,8 +35,7 @@ class ListViewModel: NSObject {
         if results.count > 0 {
             for result in results {
                 if let name = result?.title, let overView = result?.author, let date = result?.publishedAt  {
-                    let pictureUrl = "http://image.tmdb.org/t/p/w92\(result?.urlToImage ?? "")"
-                    let nameAndPictureItem = DetailsItem(name: name, pictureUrl: pictureUrl, overView: overView, date: date)
+                    let nameAndPictureItem = DetailsItem(name: name, pictureUrl: result?.urlToImage ?? "", overView: overView, date: date)
                     items.append(nameAndPictureItem)
                 }
             }
@@ -115,7 +114,7 @@ struct ListItem: ListViewModelItem {
     }
     
     var sectionTitle: String {
-        return self.date
+        return self.source
     }
     
     var rowCount: Int {
@@ -123,15 +122,13 @@ struct ListItem: ListViewModelItem {
     }
     
     var name: String
-    var pictureUrl: String
     var overView: String
-    var date: String
+    var source: String
     
-    init(name: String, pictureUrl: String, overView: String, date: String) {
+    init(name: String, pictureUrl: String, overView: String, source: String) {
         self.name = name
-        self.pictureUrl = pictureUrl
         self.overView = overView
-        self.date = date
+        self.source = source
     }
 }
 
