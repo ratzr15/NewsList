@@ -45,7 +45,7 @@ class ListViewModel: NSObject {
             }
         }else{
             //Handle no results
-            let noResult = NoResultsItem(name:"No Results found for \"\(results)\"")
+            let noResult = NoResultsItem(name:"No Results found, please try again.")
             items.append(noResult)
             print("❌")
         }
@@ -56,11 +56,11 @@ class ListViewModel: NSObject {
 //MARK: - UITableViewDataSource
 extension ListViewModel: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return  items.filter { $0.type == .list }.count
+        return  items.filter { $0.type == .list }.count > 0 ? items.filter { $0.type == .list }.count : items.filter { $0.type == .noResult }.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.filter { $0.type == .list }[section].rowCount
+        return items.filter { $0.type == .list }.count > 0 ? items.filter { $0.type == .list }[section].rowCount : items.filter { $0.type == .noResult }[section].rowCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
