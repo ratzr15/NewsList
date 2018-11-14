@@ -36,10 +36,20 @@ class NewsListTests: XCTestCase {
             manager.request(query: query){  (results) in
                 XCTAssert("ok" == String(results?.status ?? "ok"))
             }
-            
         }
     }
 
+    ///List & Details Datasource
+    func testEquate() {
+        // Put the code you want to measure the time of here.
+        let manager = ListManager()
+        let query =  Query(country: "ae", page: "", id: "6fb52f2be2754dc7871284da64b8e129", count: "30")
+        let viewModel = ListViewModel()
+        manager.request(query: query){  (results) in
+            viewModel.data(results: results?.articles ?? [])
+            XCTAssert(viewModel.items.filter { $0.type == .list }.count == viewModel.items.filter { $0.type == .noResult }.count)
+        }
+    }
     
   
 
