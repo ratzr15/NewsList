@@ -5,7 +5,7 @@
 //  Architecture      :  Uncle Bob's Clean Architecture {MVVM}
 //  Author            :  Rathish Kannan
 //  E-mail            :  rathishnk@hotmail.co.in
-//  Dated             :  23rd Sep 2018
+//  Dated             :  14 Nov 2018
 //  Copyright (c) 2018 Rathish Kannan. All rights reserved.
 //-----------------------------------------------------------------------------------
 
@@ -26,8 +26,11 @@ protocol ListViewModelItem {
 
 class ListViewModel: NSObject {
     var items = [ListViewModelItem]()
+   
+    var type:ListViewModelItemType = .list 
 
     override init() {
+        
         super.init()        
     }
 
@@ -38,14 +41,14 @@ class ListViewModel: NSObject {
                     let details = ListItem(headLine: head, overView: overView, date: date)
                     items.append(details)
                 }
-                if let name = result?.title, let overView = result?.author, let date = result?.author  {
+                if let name = result?.title, let overView = result?.description, let date = result?.author  {
                     let details = DetailsItem(name: name, pictureUrl: result?.urlToImage ?? "", overView: overView, date: date)
                     items.append(details)
                 }
             }
         }else{
             //Handle no results
-            let noResult = NoResultsItem(name:"No Results found for \"\(results)\"")
+            let noResult = NoResultsItem(name:"No Results found, please try again.")
             items.append(noResult)
             print("❌")
         }
@@ -56,15 +59,15 @@ class ListViewModel: NSObject {
 //MARK: - UITableViewDataSource
 extension ListViewModel: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return  items.filter { $0.type == .list }.count
+        return  items.filter { $0.type == .list }.count > 0 ? items.filter { $0.type == .list }.count : items.filter { $0.type == .noResult }.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.filter { $0.type == .list }[section].rowCount
+        return items.filter { $0.type == .list }.count > 0 ? items.filter { $0.type == .list }[section].rowCount : items.filter { $0.type == .noResult }[section].rowCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = items.filter { $0.type == .list }[indexPath.section]
+        let item = type == .list ? items.filter { $0.type == .list }[indexPath.section] : items.filter { $0.type == .details }[indexPath.section]
         switch item.type {
         case .list:
             if let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.identifier, for: indexPath) as? ListCell {
@@ -83,6 +86,8 @@ extension ListViewModel: UITableViewDataSource {
         return items[section].type == .list ? "" : items[section].sectionTitle
     }
 }
+
+
 
 //MARK: - VM
 struct DetailsItem: ListViewModelItem {
@@ -111,7 +116,6 @@ struct DetailsItem: ListViewModelItem {
     }
 }
 
-//MARK: - VM
 struct ListItem: ListViewModelItem {
     var type: ListViewModelItemType {
         return .list
