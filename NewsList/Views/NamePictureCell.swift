@@ -12,14 +12,12 @@ class NamePictureCell: UITableViewCell {
 
     @IBOutlet weak var overView: UILabel?
     @IBOutlet weak var pictureImageView: UIImageView?
-    @IBOutlet weak var title: UILabel!
     
-    var item: ListViewModelItem? {
+    var item: DetailsItem? {
         didSet {
-            guard let item = item as? DetailsItem else {
+            guard let item = item  else {
                 return
             }            
-            title?.text = item.name
             pictureImageView?.image = UIImage(url: URL(string: item.pictureUrl))
             overView?.text = item.overView
         }
