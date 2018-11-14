@@ -18,7 +18,7 @@ class ListCell: UITableViewCell {
             guard let item = item as? ListItem else {
                 return
             }            
-            headLines?.text = item.name
+            headLines?.text = item.headLine
             readMore?.text = item.overView
         }
     }
