@@ -11,7 +11,6 @@
 
 import Foundation
 
-
 /// RequestParams
 struct Query: Equatable{
     var country: String
@@ -73,7 +72,6 @@ class ListManager {
         }
         let url = setURL(model: param)
         print("Requesting 🚀 \(url)")
-        
         ListManager.getDataRequest(url: url, token: nil, contentType: nil, auth: false) { (data, err) in
             guard let response = data else {
                 completionHandler(SResults.Failure(error: SErrorType.CannotFetch("An Error Occured")))
@@ -96,7 +94,6 @@ class ListManager {
         }
     }
     
-    
     /// getDataRequest - Decodable Result
     ///
     /// - Parameters:
@@ -109,7 +106,6 @@ class ListManager {
         let ephemeralConfiguration = URLSessionConfiguration.ephemeral
         let session = URLSession(configuration: ephemeralConfiguration)
         guard let urlStr = URL(string: url.replacingOccurrences(of: " ", with: "")) else {
-           /*assertionFailure("Malformed URL")*/
             completionHandler( nil, nil)
             return
         }
@@ -136,7 +132,6 @@ class ListManager {
         })
         task.resume()
     }
-
     
     /// Request API
     ///
@@ -144,8 +139,8 @@ class ListManager {
     ///   - query: country/ apiKey
     ///   - page: optional count for on demand - pull to refresh
     ///   - completion: Meta / Error
-    func request(query :String, page:String, completion: @escaping (Meta?) -> Void){
-        let param = Query(country: query, page: page, id: "", count: "")
+    func request(query :Query, completion: @escaping (Meta?) -> Void){
+        let param = Query(country: query.country, page: query.page, id: query.id, count: query.count)
         self.fetch(params: param) { (result: SResults<Meta?>) -> Void in
             switch (result) {
             case .Success(let movies):
@@ -160,10 +155,10 @@ class ListManager {
     
     ///Constructor : URL
     func setURL(model : Query) -> String {
-        let baseurl  = "https://newsapi.org/v2/top-headlines?"
+        let baseurl     = "https://newsapi.org/v2/top-headlines?"
         let country     = "country=\(model.country)&"
-        let key      = "apiKey=\(model.id)&"
-        let url = baseurl + country + key
+        let key         = "apiKey=\(model.id)"
+        let url         = baseurl + country + key
         return url
     }
 }
